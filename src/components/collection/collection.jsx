@@ -49,7 +49,7 @@ class Collection extends Component {
   onTabClicked = (idx) => {
     // Only proceed if the active tab has changed; prevent multiple clicks
     if (this.state.activeTab === idx) {
-return;
+      return;
     }
     if (!this.queryHistoryIndexes.includes(idx)) {
       this.QueryHistoryActions.collapse();
