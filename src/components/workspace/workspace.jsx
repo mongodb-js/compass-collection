@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { DragDropContext } from 'react-dnd';
+import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import {
 } from 'modules/tabs';
 import CollectionTab from 'components/collection-tab';
 import CreateTab from 'components/create-tab';
+import Collection from 'components/collection';
 
 import styles from './workspace.less';
 
@@ -41,7 +42,6 @@ const KEY_OPEN_BRKT = 219;
 /**
  * The collection workspace contains tabs of multiple collections.
  */
-@DragDropContext(HTML5Backend)
 class Workspace extends PureComponent {
   static displayName = 'Workspace';
 
@@ -142,7 +142,13 @@ class Workspace extends PureComponent {
     const activeTab = this.props.tabs.find((tab) => {
       return tab.isActive;
     });
-    return activeTab ? (<p>{activeTab.namespace}</p>) : null;
+    if (activeTab) {
+      return (
+        <Collection
+          namespace={activeTab.namespace}
+          isReadonly={activeTab.isReadonly} />
+      );
+    }
   }
 
   /**
@@ -152,25 +158,27 @@ class Workspace extends PureComponent {
    */
   render() {
     return (
-      <div className={classnames(styles.workspace)}>
-        <div className={classnames(styles['workspace-tabs'])}>
-          <div onClick={this.props.prevTab} className={classnames(styles['workspace-tabs-prev'])}>
-            <i className="fa fa-chevron-left" aria-hidden/>
+      <DragDropContextProvider backend={HTML5Backend}>
+        <div className={classnames(styles.workspace)}>
+          <div className={classnames(styles['workspace-tabs'])}>
+            <div onClick={this.props.prevTab} className={classnames(styles['workspace-tabs-prev'])}>
+              <i className="fa fa-chevron-left" aria-hidden/>
+            </div>
+            <div className={classnames(styles['workspace-tabs-container'])}>
+              {this.renderTabs()}
+              <CreateTab
+                createTab={this.props.createTab}
+                activeNamespace={this.activeNamespace()}/>
+            </div>
+            <div onClick={this.props.nextTab} className={classnames(styles['workspace-tabs-next'])}>
+              <i className="fa fa-chevron-right" aria-hidden/>
+            </div>
           </div>
-          <div className={classnames(styles['workspace-tabs-container'])}>
-            {this.renderTabs()}
-            <CreateTab
-              createTab={this.props.createTab}
-              activeNamespace={this.activeNamespace()}/>
-          </div>
-          <div onClick={this.props.nextTab} className={classnames(styles['workspace-tabs-next'])}>
-            <i className="fa fa-chevron-right" aria-hidden/>
+          <div className={classnames(styles['workspace-views'])}>
+            {this.renderViews()}
           </div>
         </div>
-        <div className={classnames(styles['workspace-views'])}>
-          {this.renderViews()}
-        </div>
-      </div>
+      </DragDropContextProvider>
     );
   }
 }
