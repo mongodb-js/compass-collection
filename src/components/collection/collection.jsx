@@ -125,6 +125,9 @@ class Collection extends Component {
             className={classnames('fa', styles['collection-title-readonly-view-icon'])}
             aria-hidden="true"
           />
+          <span className={styles['collection-title-readonly-view-on']}>
+            (on: {this.CollectionStore.viewOn()})
+          </span>
         </span>
       );
     }

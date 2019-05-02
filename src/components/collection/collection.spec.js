@@ -28,8 +28,23 @@ const CollectionStore = Reflux.createStore({
   getActiveTab() {
     return 0;
   },
+  ns() {
+    return 'echo.albums';
+  },
   isReadonly() {
     return true;
+  },
+  type() {
+    return 'view';
+  },
+  viewOn() {
+    return 'bands';
+  },
+  pipeline() {
+    return [
+      { $unwind: '$albums' },
+      { $project: { artist: '$name', title: '$albums.name' } }
+    ];
   }
 });
 
@@ -40,16 +55,6 @@ describe('Collection [Component]', () => {
     }
   };
   let component;
-
-  // TODO (lucas): Update collection-store for views.
-  // const view = {
-  //   ns: 'echo.albums',
-  //   view_on: 'artist',
-  //   pipeline: [
-  //     { $unwind: '$albums' },
-  //     { $project: { artist: '$name', title: '$albums.name' } }
-  //   ]
-  // };
 
   beforeEach(() => {
     global.hadronApp.appRegistry.registerComponent(
@@ -84,7 +89,7 @@ describe('Collection [Component]', () => {
 
   it('must include the collection name the view is based on', () => {
     expect(
-      component.find(`.${styles['collection-title-readonly-view-on']}`).text()
-    ).to.include.text('artist');
+      component.find(`.${styles['collection-title-readonly-view-on']}`)
+    ).to.include.text('(on: bands)');
   });
 });
