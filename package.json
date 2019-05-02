@@ -39,7 +39,9 @@
     "hadron-react-buttons": "^3.0.5",
     "hadron-react-components": "^3.0.5",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "@mongodb-js/compass-aggregations": "^3.0.0",
@@ -66,7 +68,6 @@
     "cross-env": "^5.0.1",
     "css-loader": "^0.28.1",
     "electron": "^3.0.7",
-    "electron-packager": "^8.7.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "eslint-config-mongodb-js": "^3.0.1",
@@ -128,14 +129,12 @@
     "webpack-dev-server": "^3.1.14",
     "webpack-merge": "^4.2.1",
     "webpack-node-externals": "^1.7.2",
-    "webpack-sources": "1.0.1"
+    "webpack-sources": "^1.0.1"
   },
   "dependencies": {
     "lodash.filter": "^4.6.0",
     "mongodb-ns": "^2.0.0",
     "react-dnd": "^7.3.2",
-    "react-dnd-html5-backend": "^7.2.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "react-dnd-html5-backend": "^7.2.0"
   }
 }
