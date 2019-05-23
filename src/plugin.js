@@ -6,7 +6,8 @@ class Plugin extends Component {
   static displayName = 'CollectionPlugin';
 
   static propTypes = {
-    namespace: PropTypes.string
+    namespace: PropTypes.string,
+    isDataLake: PropTypes.bool
   };
 
   /**
@@ -15,7 +16,7 @@ class Plugin extends Component {
    * @returns {React.Component} The rendered component.
    */
   render() {
-    return (<Collection namespace={this.props.namespace} />);
+    return (<Collection namespace={this.props.namespace} isDataLake={this.props.isDataLake}/>);
   }
 }
 

@@ -12,7 +12,8 @@ class Collection extends Component {
   static displayName = 'CollectionComponent';
 
   static propTypes = {
-    namespace: PropTypes.string
+    namespace: PropTypes.string,
+    isDataLake: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -93,6 +94,10 @@ class Collection extends Component {
   }
 
   roleFiltered(role) {
+    if (['Indexes', 'Validation', 'ExplainPlan'].includes(role.name)
+        && this.props.isDataLake) {
+      return true;
+    }
     const serverVersion = global.hadronApp.instance.build.version;
     return (role.minimumServerVersion && !semver.gte(serverVersion, role.minimumServerVersion));
   }
