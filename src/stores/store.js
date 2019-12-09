@@ -12,7 +12,6 @@ import {
   collectionDropped,
   databaseDropped
 } from 'modules/tabs';
-import ipc from 'hadron-ipc';
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
@@ -22,6 +21,8 @@ const store = createStore(reducer, applyMiddleware(thunk));
  * @param {AppRegistry} appRegistry - The app registry.
  */
 store.onActivated = (appRegistry) => {
+  const ipc = require('hadron-ipc');
+
   /**
    * When a collection namespace is selected in the sidebar.
    *
