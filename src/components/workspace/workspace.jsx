@@ -181,6 +181,7 @@ class Workspace extends PureComponent {
       lockAxis="x"
       distance={10}
       onSortEnd={this.onSortEnd}
+      helperClass={classnames(styles['workspace-tabs-sortable-clone'])}
     />);
   }
 
