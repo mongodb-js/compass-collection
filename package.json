@@ -95,7 +95,7 @@
     "d3-flextree": "1.0.3",
     "d3-timer": "1.0.7",
     "electron": "^3.0.7",
-    "electron-packager": "^8.7.0",
+    "electron-packager": "^14.2.0",
     "electron-rebuild": "^1.8.4",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
