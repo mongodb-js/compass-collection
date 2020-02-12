@@ -134,7 +134,7 @@
     "mongodb-ace-theme-query": "0.0.2",
     "mongodb-connection-model": "^13.0.1",
     "mongodb-data-service": "^14.0.1",
-    "mongodb-js-fmt": "^0.0.3",
+    "mongodb-js-fmt": "^1.0.0",
     "mongodb-js-metrics": "^4.2.0",
     "mongodb-js-precommit": "^2.0.0",
     "mongodb-reflux-store": "^0.0.1",
