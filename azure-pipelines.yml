@@ -1,29 +1,37 @@
 variables:
   node_version: '12.4.0'
-  
+
 strategy:
   matrix:
     linux:
       imageName: 'ubuntu-latest'
+      displayName: 'Build/Test (Ubuntu)'
     mac:
       imageName: 'macos-latest'
+      displayName: 'Build/Test (macOS)'
     windows:
       imageName: 'windows-latest'
+      displayName: 'Build/Test (Windows)'
 
 pool:
   vmImage: $(imageName)
 
 steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(node_version)
+    displayName: 'Install node.js'
   - script: |
       set -e
       sudo apt-get update
       sudo apt-get install -y libxkbfile-dev pkg-config libsecret-1-dev libxss1 dbus xvfb libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libnss3
     displayName: 'Install native Linux dependencies'
     condition: in(variables['agent.os'], 'Linux')
-  - task: NodeTool@0
-    inputs:
-      versionSpec: $(node_version)
-    displayName: 'Install node.js'
+  - powershell: |
+      npm install --global windows-build-tools
+      windows-build-tools
+    displayName: 'Install native Windows dependencies'
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
   - script: |
       npm ci
     displayName: 'Install dependencies from npm'
