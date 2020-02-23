@@ -10,9 +10,12 @@ strategy:
     mac:
       imageName: 'macos-latest'
       displayName: 'Build/Test (macOS)'
-    windows:
-      imageName: 'vs2017-win2016'
-      displayName: 'Build/Test (Windows)'
+    # TODO (lucas): Windows fails to build because of kerberos native add-on.
+    # https://jira.mongodb.org/browse/NODE-2465 Will get updated builds to work around
+    # at which point this might be worth trying again.
+    #   windows:
+    #   imageName: 'windows-latest'
+    #   displayName: 'Build/Test (Windows)'
 
 pool:
   vmImage: $(imageName)
@@ -28,11 +31,6 @@ steps:
       sudo apt-get install -y libxkbfile-dev pkg-config libsecret-1-dev libxss1 dbus xvfb libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libnss3
     displayName: 'Install native Linux dependencies'
     condition: in(variables['agent.os'], 'Linux')
-  # - powershell: |
-  #     npm install --global windows-build-tools
-  #     windows-build-tools
-  #   displayName: 'Install native Windows dependencies'
-  #   condition: eq( variables['Agent.OS'], 'Windows_NT' )
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsnpm
   - task: Cache@2
     inputs:
