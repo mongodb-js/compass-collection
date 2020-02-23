@@ -90,7 +90,7 @@ COMPASS_HOME=/path/to/my/compass npm run unlink-plugin
 - [ ] docs: travis and azure pipelines
 - [ ] docs: `xvfb-maybe` for electron on travis/azure
 - [ ] docs: dependabot
-- [ ] ci: publish coverage and karma xunit on azure
+- [x] ci: publish coverage and karma xunit on azure
 
 ## License
 
