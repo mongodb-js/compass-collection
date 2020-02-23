@@ -1,5 +1,17 @@
 variables:
   node_version: '12.4.0'
+  
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    mac:
+      imageName: 'macos-latest'
+    windows:
+      imageName: 'windows-latest'
+
+pool:
+  vmImage: $(imageName)
 
 steps:
   - script: |
@@ -45,20 +57,3 @@ steps:
   - script: |
       npm run check
     displayName: 'Run static analysis checks'
-
-trigger:
-  - master
-
-jobs:
-  - job: Ubuntu
-    pool:
-      vmImage: ubuntu-latest
-  - job: Windows
-    pool:
-      vmImage: windows-latest
-  - job: macOS
-    pool:
-      vmImage: macOS-latest
-  - job: macOS Catalina
-    pool:
-      vmImage: 'macOS-10.15'
