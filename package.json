@@ -89,7 +89,7 @@
     "chai-enzyme": "1.0.0-beta.1",
     "classnames": "^2.2.6",
     "cross-env": "^7.0.0",
-    "css-loader": "^3.4.2",
+    "css-loader": "^0.28.11",
     "d3": "3.5.17",
     "d3-flextree": "1.0.3",
     "d3-timer": "1.0.7",
