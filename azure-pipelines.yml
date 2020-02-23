@@ -1,65 +1,43 @@
+variables:
+  node_version: '12.4.0'
+
+steps:
+  - script: |
+      set -e
+      sudo apt-get update
+      sudo apt-get install -y libxkbfile-dev pkg-config libsecret-1-dev libxss1 dbus xvfb libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libnss3
+    displayName: 'Install native Linux dependencies'
+    condition: in(variables['agent.os'], 'Linux')
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(node_version)
+    displayName: 'Install node.js'
+  - script: |
+      npm ci
+    displayName: 'Install dependencies from npm'
+  - script: |
+      npm run cover
+    displayName: 'Run unit tests'
+  - script: |
+      npm run test:karma
+    displayName: 'Run functional tests'
+  - script: |
+      npm run check
+    displayName: 'Run static analysis checks'
+
 trigger:
   - master
+
 jobs:
   - job: Ubuntu
     pool:
-      vmImage: 'Ubuntu-16.04'
-    steps:
-      - script: |
-          set -e
-          export DISPLAY=:99.0
-          sudo apt-get update
-          sudo apt-get install -y libxkbfile-dev pkg-config libsecret-1-dev libxss1 dbus xvfb libgtk-3-0 libgconf-2-4 libasound2 libxtst6 libnss3
-          sudo cp xvfb.init /etc/init.d/xvfb
-          sudo chmod +x /etc/init.d/xvfb
-          sudo update-rc.d xvfb defaults
-          sudo service xvfb start
-        displayName: 'Install Services'
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.2.1'
-        displayName: 'Install Node.js'
-      - script: |
-          echo "//registry.npmjs.org/:_authToken=$(org.NPMToken)" >> .npmrc
-        displayName: 'Set NPM Token'
-      - script: |
-          npm install
-        displayName: 'NPM Install'
-      - script: |
-          npm run cover
-        displayName: 'Run Node Tests'
-      - script: |
-          npm run test:karma
-        displayName: 'Run Renderer Tests'
-      - script: |
-          npm run compile
-        displayName: 'Compile'
-      - script: |
-          npm run check
-        displayName: 'Run Checks'
-  - job: OSX
+      vmImage: ubuntu-latest
+  - job: Windows
     pool:
-      vmImage: 'macOS-10.14'
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '10.2.1'
-        displayName: 'Install Node.js'
-      - script: |
-          echo "//registry.npmjs.org/:_authToken=$(org.NPMToken)" >> .npmrc
-        displayName: 'Set NPM Token'
-      - script: |
-          npm install
-        displayName: 'NPM Install'
-      - script: |
-          npm run cover
-        displayName: 'Run Node Tests'
-      - script: |
-          npm run test:karma
-        displayName: 'Run Renderer Tests'
-      - script: |
-          npm run compile
-        displayName: 'Compile'
-      - script: |
-          npm run check
-        displayName: 'Run Checks'
+      vmImage: windows-latest
+  - job: macOS
+    pool:
+      vmImage: macOS-latest
+  - job: macOS Catalina
+    pool:
+      vmImage: 'macOS-10.15'
