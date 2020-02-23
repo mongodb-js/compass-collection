@@ -1,5 +1,6 @@
 variables:
   node_version: '12.4.0'
+  npm_config_cache: $(Pipeline.Workspace)/.npm
 
 strategy:
   matrix:
@@ -32,6 +33,15 @@ steps:
       windows-build-tools
     displayName: 'Install native Windows dependencies'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
+  # https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsnpm
+  - task: Cache@2
+    inputs:
+      key: 'npm | "$(Agent.OS)" | package-lock.json'
+      restoreKeys: |
+        npm | "$(Agent.OS)"
+        npm
+      path: $(npm_config_cache)
+    displayName: Cache npm
   - script: |
       npm ci
     displayName: 'Install dependencies from npm'
