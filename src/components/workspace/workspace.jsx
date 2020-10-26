@@ -195,7 +195,7 @@ class Workspace extends PureComponent {
         [styles['workspace-view-tab']]: true,
         hidden: !tab.isActive
       });
-      return <div className={viewTabClass}>
+      return (<div className={viewTabClass}>
         <Collection
           key={tab.id}
           id={tab.id}
@@ -217,7 +217,7 @@ class Workspace extends PureComponent {
           selectOrCreateTab={this.props.selectOrCreateTab}
           globalAppRegistry={this.props.appRegistry}
           localAppRegistry={tab.localAppRegistry} />
-        </div>;
+      </div>);
     });
   }
 
